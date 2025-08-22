@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Check-In</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f8;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #2a9df4;
+            margin-bottom: 30px;
+        }
+        .fileira {
+            margin-bottom: 40px;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        th {
+            background-color: #2a9df4;
+            color: white;
+        }
+        input {
+            padding: 5px;
+            width: 80px;
+            text-align: center;
+        }
+        button {
+            padding: 5px 10px;
+            margin-left: 5px;
+            background-color: #2a9df4;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .resultado {
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .correta { color: green; }
+        .incorreta { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Sistema de Check-In</h1>
+
+    <div class="fileira">
+        <h2>Fileira A</h2>
+        <table id="tableA">
+            <tr>
+                <th>Assento</th>
+                <th>Senha</th>
+                <th>Confirmar</th>
+                <th>Status</th>
+            </tr>
+        </table>
+    </div>
+
+    <div class="fileira">
+        <h2>Fileira B</h2>
+        <table id="tableB">
+            <tr>
+                <th>Assento</th>
+                <th>Senha</th>
+                <th>Confirmar</th>
+                <th>Status</th>
+            </tr>
+        </table>
+    </div>
+
+    <div class="fileira">
+        <h2>Fileira C</h2>
+        <table id="tableC">
+            <tr>
+                <th>Assento</th>
+                <th>Senha</th>
+                <th>Confirmar</th>
+                <th>Status</th>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        // Senhas pré-definidas
+        const senhas = {
+            'A1':'A123','A2':'A234','A3':'A345','A4':'A456','A5':'A567','A6':'A678','A7':'A789','A8':'A890','A9':'A901','A10':'A012',
+            'B1':'B123','B2':'B234','B3':'B345','B4':'B456','B5':'B567','B6':'B678','B7':'B789','B8':'B890','B9':'B901','B10':'B012',
+            'C1':'C123','C2':'C234','C3':'C345','C4':'C456','C5':'C567','C6':'C678','C7':'C789','C8':'C890','C9':'C901','C10':'C012'
+        };
+
+        // Função para criar tabela de cada fileira
+        function criarTabela(fileira, tableId) {
+            const table = document.getElementById(tableId);
+            for (let i = 1; i <= 10; i++) {
+                const assento = fileira + i;
+                const row = table.insertRow();
+                
+                const cellAssento = row.insertCell(0);
+                cellAssento.textContent = assento;
+                
+                const cellInput = row.insertCell(1);
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = 'input_' + assento;
+                cellInput.appendChild(input);
+                
+                const cellButton = row.insertCell(2);
+                const button = document.createElement('button');
+                button.textContent = 'Confirmar';
+                button.onclick = function() { verificarSenha(assento); };
+                cellButton.appendChild(button);
+                
+                const cellStatus = row.insertCell(3);
+                cellStatus.id = 'status_' + assento;
+            }
+        }
+
+        // Função para verificar senha
+        function verificarSenha(assento) {
+            const input = document.getElementById('input_' + assento).value.toUpperCase();
+            const status = document.getElementById('status_' + assento);
+            if (senhas[assento] === input) {
+                status.textContent = '✅ Correto';
+                status.className = 'resultado correta';
+            } else {
+                status.textContent = '❌ Incorreto';
+                status.className = 'resultado incorreta';
+            }
+        }
+
+        // Criar todas as tabelas
+        criarTabela('A', 'tableA');
+        criarTabela('B', 'tableB');
+        criarTabela('C', 'tableC');
+    </script>
+</body>
+</html>
